@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DTO" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAgAAAAAAABAAAAAACAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>DTO.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Console" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AACAAgIABCAAAQACAAEAAAAAAAAAAgAAgAAAEAAAAAA=</HashCode>
+      <FileName>console.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="srv" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Film" Collapsed="true">
+    <Position X="3.75" Y="4.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAgAwAAABEAAAIAAAQACCIAABAAAAAAAAAQAQAA=</HashCode>
+      <FileName>film.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LkdLst&lt;TElem&gt;" Collapsed="true">
+    <Position X="10" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAACgAgAAAAAAIEIABAQAAEAAAAAgQAgAAAAAAA=</HashCode>
+      <FileName>linked_list.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="head" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LkdLstIter&lt;TElem&gt;" Collapsed="true">
+    <Position X="12.25" Y="4.75" Width="1.75" />
+    <AssociationLine Name="current" Type="Node&lt;TElem&gt;">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.775" Y="0.07" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAQAAgAAAACAAAAAgAAAAAAA=</HashCode>
+      <FileName>linked_list.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="current" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ValidException" Collapsed="true">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAAAAAAA=</HashCode>
+      <FileName>valid.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Validator" Collapsed="true">
+    <Position X="4.75" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>valid.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Service" Collapsed="true">
+    <Position X="7" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAEAAEABAQAEBAAUECAAAAAAAAABAQ=</HashCode>
+      <FileName>srv.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="repo" />
+      <Field Name="valid" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RepoException" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>repo.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Repository" Collapsed="true">
+    <Position X="7" Y="4.75" Width="1.5" />
+    <AssociationLine Name="films" Type="LkdLst&lt;TElem&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="5.031" />
+        <Point X="8.854" Y="5.031" />
+        <Point X="8.854" Y="5.031" />
+        <Point X="10" Y="5.031" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAIAAAIAEAAAAAAAAAAAAQEAAAAACAAAAAAAA=</HashCode>
+      <FileName>repo.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="films" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Test" Collapsed="true">
+    <Position X="11" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAABBIAAAAAAQAAAIAAAAAAAAAkMAEAAACCCAAAAA=</HashCode>
+      <FileName>tests.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Node&lt;TElem&gt;" Collapsed="true">
+    <Position X="11" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAMAAAA=</HashCode>
+      <FileName>linked_list.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="next" />
+    </ShowAsAssociation>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
