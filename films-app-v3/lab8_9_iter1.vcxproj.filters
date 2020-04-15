@@ -22,6 +22,12 @@
     <ClCompile Include="tests.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="srvc.cpp">
+      <Filter>Source\Cart</Filter>
+    </ClCompile>
+    <ClCompile Include="repoc.cpp">
+      <Filter>Source\Cart</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h">
@@ -42,6 +48,12 @@
     <ClInclude Include="valid.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="repoc.h">
+      <Filter>Headers\Cart</Filter>
+    </ClInclude>
+    <ClInclude Include="srvc.h">
+      <Filter>Headers\Cart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -50,5 +62,15 @@
     <Filter Include="Source">
       <UniqueIdentifier>{1d08c385-57e5-4f52-94e1-74a0c7892b1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\Cart">
+      <UniqueIdentifier>{4934beaa-d114-4cb6-b6ce-352707ee89b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Cart">
+      <UniqueIdentifier>{360ab73a-f349-4361-8fb1-63ac0ef21c74}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="export.csv" />
+    <None Include="test.csv" />
   </ItemGroup>
 </Project>

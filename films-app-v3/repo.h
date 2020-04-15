@@ -18,7 +18,9 @@ public:
 ostream& operator<<(ostream& out, const RepoException& ex);
 
 class Repository {
+private:
 	vector<Film> films;
+	friend class RepositoryCart;
 
 public:
 	Repository() = default;

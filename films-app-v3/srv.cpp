@@ -38,4 +38,3 @@ void Service::sortBySRV(bool(*compare)(const Film&, const Film&), vector<Film>& 
 	
 	std::sort(sorted.begin(), sorted.end(), compare);
 }
-

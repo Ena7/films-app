@@ -2,7 +2,6 @@
 #include "repo.h"
 #include "valid.h"
 
-
 class Service {
 	Repository& repo;
 	Validator& valid;
@@ -43,3 +42,5 @@ public:
 	void sortBySRV(bool(*compare)(const Film&, const Film&), vector<Film>& sorted);
 
 };
+
+

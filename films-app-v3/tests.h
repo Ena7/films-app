@@ -14,6 +14,11 @@ class Test {
 	void test_sortByTitleSRV();
 	void test_sortByActorSRV();
 	void test_sortByYearAndGenreSRV();
+	//CART
+	void test_addToCart();
+	void test_generate();
+	void test_export();
+
 public:
 	void testAll();
 };

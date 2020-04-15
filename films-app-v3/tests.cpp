@@ -1,7 +1,9 @@
 #include "tests.h"
 #include "film.h"
 #include "repo.h"
+#include "repoc.h"
 #include "srv.h"
+#include "srvc.h"
 #include <assert.h>
 #include <exception>
 #include <sstream>
@@ -268,6 +270,97 @@ void Test::test_sortByYearAndGenreSRV() {
 	assert(sorted.at(2) == f1);
 }
 
+//CART
+
+void Test::test_addToCart() {
+	Repository repo;
+	RepositoryCart repoc{ repo };
+	ServiceCart srvc{ repoc };
+	const Film f1{ "b", "c", 2001, "m" };
+	const Film f2{ "c", "b", 2001, "o" };
+	const Film f3{ "a", "a", 2000, "n" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
+	assert(repoc.getCart().size() == 0);
+	srvc.addToCartSV("a");
+	assert(repoc.getCart().size() == 1);
+	srvc.addToCartSV("b");
+	assert(repoc.getCart().size() == 2);
+	bool exceptionThrown = false;
+	try {
+		//does not exist
+		srvc.addToCartSV("n");
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+
+	assert(repoc.getCart().size() == 2);
+	exceptionThrown = false;
+	try {
+		//already added in the cart
+		srvc.addToCartSV("a");
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+
+	assert(repoc.getCart().size() == 2);
+	srvc.clearCartSV();
+	assert(repoc.getCart().size() == 0);
+}
+
+void Test::test_generate() {
+	Repository repo;
+	RepositoryCart repoc{ repo };
+	ServiceCart srvc{ repoc };
+	const Film f1{ "b", "c", 2001, "m" };
+	const Film f2{ "c", "b", 2001, "o" };
+	const Film f3{ "a", "a", 2000, "n" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
+	bool exceptionThrown = false;
+	try {
+		//negative or zero value
+		srvc.generateSV(-1);
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+
+	assert(repoc.getCart().size() == 0);
+	exceptionThrown = false;
+	try {
+		//exceeds total number
+		srvc.generateSV(4);
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+
+	assert(repoc.getCart().size() == 0);
+	srvc.generateSV(3);
+	assert(repoc.getCart().size() == 3);
+}
+
+void Test::test_export() {
+	Repository repo;
+	RepositoryCart repoc{ repo };
+	ServiceCart srvc{ repoc };
+	const Film f1{ "b", "c", 2001, "m" };
+	const Film f2{ "c", "b", 2001, "o" };
+	const Film f3{ "a", "a", 2000, "n" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
+	assert(repoc.getCart().size() == 0);
+	srvc.addToCartSV("a");
+	srvc.addToCartSV("b");
+	assert(repoc.getCart().size() == 2);
+	srvc.exportSV("test.csv");
+}
+
+
 void Test::testAll() {
 	test_addREPO();
 	test_removeREPO();
@@ -282,4 +375,8 @@ void Test::testAll() {
 	test_sortByTitleSRV();
 	test_sortByActorSRV();
 	test_sortByYearAndGenreSRV();
+	//CART
+	test_addToCart();
+	test_generate();
+	test_export();
 }

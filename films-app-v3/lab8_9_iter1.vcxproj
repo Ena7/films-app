@@ -107,6 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,7 +151,9 @@
     <ClCompile Include="film.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="repo.cpp" />
+    <ClCompile Include="repoc.cpp" />
     <ClCompile Include="srv.cpp" />
+    <ClCompile Include="srvc.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="valid.cpp" />
   </ItemGroup>
@@ -158,9 +161,15 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="film.h" />
     <ClInclude Include="repo.h" />
+    <ClInclude Include="repoc.h" />
     <ClInclude Include="srv.h" />
+    <ClInclude Include="srvc.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="valid.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="export.csv" />
+    <None Include="test.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

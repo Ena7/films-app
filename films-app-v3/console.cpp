@@ -90,9 +90,29 @@ void Console::printUI(const vector<Film>& films) {
 	}
 }
 
+//CART
+
+void Console::addToCartUI() {
+	string title;
+	cout << "Input title: "; cin >> title;
+	srvc.addToCartSV(title);
+}
+
+void Console::generateUI() {
+	int number;
+	cout << "Input the number of random films to be added: "; cin >> number;
+	srvc.generateSV(number);
+}
+
+void Console::exportUI() {
+	string filename;
+	cout << "Input filename: "; cin >> filename;
+	srvc.exportSV(filename);
+}
+
 void Console::run() {
 	while (true) {
-		cout << "\n  1. Add\n  2. Remove\n  3. Edit\n  4. Print\n  5. Find\n  6. Filter by title\n  7. Filter by year\n  8. Sort by title\n  9. Sort by actor\n 10. Sort by year and genre\n  0. Exit\n\n Input: ";
+		cout << "\n   == Films database ==\n\n  1. Add\n  2. Remove\n  3. Edit\n  4. Print\n  5. Find\n  6. Filter by title\n  7. Filter by year\n  8. Sort by title\n  9. Sort by actor\n 10. Sort by year and genre\n\n   == Your cart ==\n > You cart has " << srvc.getCart().size() << " film(s)!\n\n 11. Clear cart\n 12. Add to cart\n 13. Add to cart a number of random flims\n 14. Export your cart to a file \n\n  0. Exit\n\n Input: ";
 		int cmd;
 		checkInt(cmd);
 		try {
@@ -142,20 +162,33 @@ void Console::run() {
 				}
 				sortUI([](const Film& f1, const Film& f2) { return f1.getTitle() < f2.getTitle(); });
 				break;
-			case 9: {
+			case 9:
 				if (srv.getAllSRV().size() == 0) {
 					throw RepoException("\nThere are no films in the database!");
 				}
 				sortUI([](const Film& f1, const Film& f2) { return f1.getActor() < f2.getActor(); });
 				break;
-			}
-			case 10: {
+			case 10:
 				if (srv.getAllSRV().size() == 0) {
 					throw RepoException("\nThere are no films in the database!");
 				}
 				sortUI(cmpYearAndGenre);
 				break;
-			}
+			case 11:
+				srvc.clearCartSV();
+				break;
+			case 12:
+				addToCartUI();
+				break;
+			case 13:
+				generateUI();
+				break;
+			case 14:
+				if (srvc.getCart().size() == 0) {
+					throw RepoException("\nThere are no films in the cart!");
+				}
+				exportUI();
+				break;
 			case 0:
 				return;
 			default:

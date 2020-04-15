@@ -13,16 +13,21 @@ void mainApp() {
 	test.testAll();
 
 	Repository repo;
+	RepositoryCart repoc{ repo };
+
 	Validator valid;
+
 	Service srv{ repo, valid };
-	Console ui{ srv };
+	ServiceCart srvc{ repoc };
+
+	Console ui{ srv, srvc };
 
 	repo.addREPO({ "avatar", "SF", 2009, "worthington" });
 	repo.addREPO({ "fury", "War", 2014, "pitt" });
 	repo.addREPO({ "interstellar", "SF", 2014, "mcconaughey" });
 	repo.addREPO({ "2012", "Action", 2009, "cusack" });
 	repo.addREPO({ "aquaman", "Action", 2018, "momoa" });
-	repo.addREPO({ "avatar", "SF", 2020, "tba" });
+	//repo.addREPO({ "avatar", "SF", 2020, "tba" });
 	repo.addREPO({ "life of pi", "Drama", 2012, "sharma" });
 
 	ui.run();
