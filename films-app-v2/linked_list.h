@@ -34,10 +34,10 @@ public:
 	unsigned int size() const noexcept;
 
 	//adauga un nod la finalul listei
-	void push_back(TElem elem);
+	void push_back(const TElem& elem);
 
 	//returneaza valoarea nodului de la pozitia data
-	TElem at(unsigned int posToBeRet) const;
+	TElem& at(unsigned int posToBeRet) const;
 
 	//sterge un nod de la pozitia data
 	void erase(unsigned int posToBeDel) noexcept;
@@ -114,7 +114,7 @@ unsigned int LkdLst<TElem>::size() const noexcept {
 }
 
 template<typename TElem>
-void LkdLst<TElem>::push_back(TElem elem) {
+void LkdLst<TElem>::push_back(const TElem& elem) {
 	Node<TElem>* currentNode = head;
 	while (currentNode != nullptr && currentNode->next != nullptr) {
 		currentNode = currentNode->next;
@@ -128,7 +128,7 @@ void LkdLst<TElem>::push_back(TElem elem) {
 }
 
 template<typename TElem>
-TElem LkdLst<TElem>::at(unsigned int posToBeRet) const {
+TElem& LkdLst<TElem>::at(unsigned int posToBeRet) const {
 	Node<TElem>* currentNode = head;
 	unsigned int lg = 0;
 	while (lg < posToBeRet) {
