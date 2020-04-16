@@ -7,45 +7,50 @@ ostream& operator<<(ostream& out, const RepoException& ex){
 	return out;
 }
 
-void Repository::addREPO(const Film& film){
-	for (const Film& f : films) {
-		if (f.getTitle() == film.getTitle() && f.getYear() == film.getYear()) {
-			throw RepoException("\nThe film with this title and year already exists!\n");
-		}
+void Repository::addREPO(Film& film){
+	if (films.size() == 0) {
+		films[0] = film;
+		uniq = 1;
+		return;
 	}
-	films.push_back(film);
+	auto match = std::find_if(films.begin(), films.end(), [&film](const auto& it) noexcept { return it.second == film; });
+	if (match != films.end()) {
+		throw RepoException("\nThe film with this title and year already exists!\n");
+	}
+	films[uniq++] = film;
 }
 
 void Repository::removeREPO(const string& title, const int& year){
-	const auto size = films.size();
-	films.erase(remove_if(films.begin(), films.end(), [&title, &year](const Film& film) { return film.getTitle() == title && film.getYear() == year; }), films.end());
-	if(size != films.size()){
+	auto match = std::find_if(films.begin(), films.end(), [&title, &year](const auto& it) { return it.second.getTitle() == title && it.second.getYear() == year; });
+	if(match != films.end()){
+		films.erase(match);
 		return;
 	}
-	throw RepoException("\nThis film does not exist!\n");
-}
+	throw RepoException("\nThis film does not exist!\n"); }
 
 void Repository::editREPO(const string& title, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor){
-	for (Film& film : films) {
-		if (film.getTitle() == title) {
-			film.setTitle(newtitle);
-			film.setGenre(newgenre);
-			film.setYear(newyear);
-			film.setActor(newactor);
-			return;
-		}
-	}
-	throw RepoException("\nThis film does not exist!\n");
-}
-
-const Film& Repository::findREPO(const string& title, const int& year) const{
-	auto match = std::find_if(films.begin(), films.end(), [&title, &year](const Film& film) { return film.getTitle() == title && film.getYear() == year; });
+	auto match = std::find_if(films.begin(), films.end(), [&title](const auto& it) { return it.second.getTitle() == title; });
 	if (match != films.end()) {
-		return *match;
+		match->second.setTitle(newtitle);
+		match->second.setGenre(newgenre);
+		match->second.setYear(newyear);
+		match->second.setActor(newactor);
+		return;
 	}
 	throw RepoException("\nThe film with the specified title and year does not exist!\n"); }
 
-const vector<Film>& Repository::getAllREPO() const noexcept{
-	return films;
+const Film& Repository::findREPO(const string& title, const int& year) const{
+	auto match = std::find_if(films.begin(), films.end(), [&title, &year](const auto& it) { return it.second.getTitle() == title && it.second.getYear() == year; });
+	if (match != films.end()) {
+		return match->second;
+	}
+	throw RepoException("\nThe film with the specified title and year does not exist!\n"); }
+
+vector<Film> Repository::getAllREPO() const noexcept{
+	vector<Film> list;
+	for (const auto& iterator : films) {
+		list.push_back(iterator.second);
+	}
+	return list;
 }
 

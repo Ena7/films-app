@@ -14,6 +14,7 @@ class Test {
 	void test_sortByTitleSRV();
 	void test_sortByActorSRV();
 	void test_sortByYearAndGenreSRV();
+	void test_statistics();
 	//CART
 	void test_addToCart();
 	void test_generate();

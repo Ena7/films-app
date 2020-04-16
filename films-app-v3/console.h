@@ -15,6 +15,7 @@ class Console {
 	void filterByYearUI();
 	void sortUI(bool(*compare)(const Film&, const Film&));
 	void printUI(const vector<Film>& films);
+	void statisticsUI();
 
 	void addToCartUI();
 	void generateUI();

@@ -22,13 +22,13 @@ void mainApp() {
 
 	Console ui{ srv, srvc };
 
-	repo.addREPO({ "avatar", "SF", 2009, "worthington" });
-	repo.addREPO({ "fury", "War", 2014, "pitt" });
-	repo.addREPO({ "interstellar", "SF", 2014, "mcconaughey" });
-	repo.addREPO({ "2012", "Action", 2009, "cusack" });
-	repo.addREPO({ "aquaman", "Action", 2018, "momoa" });
-	//repo.addREPO({ "avatar", "SF", 2020, "tba" });
-	repo.addREPO({ "life of pi", "Drama", 2012, "sharma" });
+	Film f1 = { "avatar", "SF", 2009, "worthington" };
+	Film f2 = { "interstellar", "SF", 2014, "mcconaughey" };
+	Film f3 = { "fury", "War", 2014, "pitt" };
+	Film f4 = { "2012", "Action", 2009, "cusack" };
+	Film f5 = { "aquaman", "Action", 2018, "momoa" };
+	Film f6 = { "life of pi", "Drama", 2012, "sharma" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3); repo.addREPO(f4); repo.addREPO(f5); repo.addREPO(f6);
 
 	ui.run();
 }

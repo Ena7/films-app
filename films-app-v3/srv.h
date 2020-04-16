@@ -1,6 +1,7 @@
 #pragma once
 #include "repo.h"
 #include "valid.h"
+#include "DTO.h"
 
 class Service {
 	Repository& repo;
@@ -17,7 +18,7 @@ public:
 	void addSRV(const string& title, const string& genre, int year, const string& actor);
 
 	//returneaza lista de filme in ordinea adaugarii
-	const vector<Film>& getAllSRV() const noexcept;
+	vector<Film> getAllSRV() const noexcept;
 
 	//sterge un film avand titlul dat
 	void removeSRV(const string& title, const int& year);
@@ -41,6 +42,9 @@ public:
 	*/
 	void sortBySRV(bool(*compare)(const Film&, const Film&), vector<Film>& sorted);
 
+	//returneaza un vector reprezentand un raport ce contine numarul de filme pentru fiecare gen existent
+	//in baza de date
+	vector<DTO> statistics();
 };
 
 

@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <ostream>
+#include <map>
 
 using std::vector;
 using std::string;
@@ -19,8 +20,8 @@ ostream& operator<<(ostream& out, const RepoException& ex);
 
 class Repository {
 private:
-	vector<Film> films;
-	friend class RepositoryCart;
+	std::map<unsigned,Film> films;
+	unsigned uniq = 0;
 
 public:
 	Repository() = default;
@@ -28,7 +29,7 @@ public:
 	Repository(const Repository& nocopy) = delete;
 
 	//aduga la lista de filme un film
-	void addREPO(const Film& film);
+	void addREPO(Film& film);
 
 	//sterge un film avand un titlu dat
 	void removeREPO(const string& title, const int& year);
@@ -40,6 +41,6 @@ public:
 	const Film& findREPO(const string& title, const int& year) const;
 
 	//returneaza lista de filme in ordinea adaugarii
-	const vector<Film>& getAllREPO() const noexcept;
+	vector<Film> getAllREPO() const noexcept;
 	
 };

@@ -10,16 +10,20 @@
 
 void Test::test_addREPO() {
 	Repository repo;
+	Film f1 { "a", "a", 2000, "a" };
+	Film f2 { "b", "b", 2001, "b" };
+	Film f3 { "b", "b", 2002, "b" };
+	Film fno{ "a", "a", 2000, "a" };
 	assert(repo.getAllREPO().size() == 0);
-	repo.addREPO({ "a", "a", 2000, "a" });
+	repo.addREPO(f1);
 	assert(repo.getAllREPO().size() == 1);
-	repo.addREPO({ "b", "b", 2001, "b" });
+	repo.addREPO(f2);
 	assert(repo.getAllREPO().size() == 2);
-	repo.addREPO({ "a", "a", 2002, "a" });
+	repo.addREPO(f3);
 	assert(repo.getAllREPO().size() == 3);
 	bool exceptionThrown = false;
 	try {
-		repo.addREPO({ "a", "a", 2000, "a" }); }
+		repo.addREPO(fno); }
 	catch (const RepoException& ex) {
 		exceptionThrown = true;
 		std::stringstream ss;
@@ -32,15 +36,16 @@ void Test::test_addREPO() {
 
 void Test::test_removeREPO() {
 	Repository repo;
-	repo.addREPO({ "a", "a", 2000, "a" });
-	repo.addREPO({ "b", "b", 2001, "b" });
-	repo.addREPO({ "c", "c", 2002, "c" });
+	Film f1{ "a", "a", 2000, "a" };
+	Film f2{ "b", "b", 2001, "b" };
+	Film f3{ "b", "b", 2002, "b" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	assert(repo.getAllREPO().size() == 3);
 	repo.removeREPO("b", 2001);
 	assert(repo.getAllREPO().size() == 2);
 	repo.removeREPO("a", 2000);
 	assert(repo.getAllREPO().size() == 1);
-	assert(repo.getAllREPO().at(0).getTitle() == "c");
+	assert(repo.getAllREPO().at(0).getTitle() == "b");
 	bool exceptionThrown = false;
 	try {
 		repo.removeREPO("no", 2002); }
@@ -53,9 +58,10 @@ void Test::test_removeREPO() {
 
 void Test::test_editREPO() {
 	Repository repo;
-	repo.addREPO({ "a", "a", 2000, "a" });
-	repo.addREPO({ "b", "b", 2001, "b" });
-	repo.addREPO({ "c", "c", 2001, "c" });
+	Film f1{ "a", "a", 2000, "a" };
+	Film f2{ "b", "b", 2001, "b" };
+	Film f3{ "b", "b", 2002, "b" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	repo.editREPO("b", "m", "n", 1901, "o");
 	assert(repo.getAllREPO().size() == 3);
 	assert(repo.getAllREPO().at(1).getTitle() == "m");
@@ -74,10 +80,9 @@ void Test::test_editREPO() {
 
 void Test::test_findREPO() {
 	Repository repo;
-	const Film f1{ "a", "a", 2000, "a" };
-	const Film f2{ "b", "b", 2001, "b" };
-	const Film f3{ "b", "b", 2002, "b" };
-
+	Film f1{ "a", "a", 2000, "a" };
+	Film f2{ "b", "b", 2001, "b" };
+	Film f3{ "b", "b", 2002, "b" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	assert(repo.findREPO("b", 2002) == f3);
 	bool exceptionThrown = false;
@@ -172,9 +177,9 @@ void Test::test_findSRV() {
 	Repository repo;
 	Validator valid;
 	Service const srv{ repo, valid };
-	const Film f1{ "a", "a", 2000, "a" };
-	const Film f2{ "b", "b", 2001, "b" };
-	const Film f3{ "b", "b", 2002, "b" };
+	Film f1{ "a", "a", 2000, "a" };
+	Film f2{ "b", "b", 2001, "b" };
+	Film f3{ "b", "b", 2002, "b" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	assert(srv.findSRV("b", 2002) == f3);
 	bool exceptionThrown = false;
@@ -190,9 +195,9 @@ void Test::test_filterByTitleSRV() {
 	Repository repo;
 	Validator valid;
 	Service srv{ repo, valid };
-	const Film f1 { "baa", "b", 2000, "b" };
-	const Film f2 { "cdd", "c", 2001, "c" };
-	const Film f3 { "bcc", "a", 2002, "a" };
+	Film f1 { "baa", "b", 2000, "b" };
+	Film f2 { "cdd", "c", 2001, "c" };
+	Film f3 { "bcc", "a", 2002, "a" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	vector<Film> filter1;
 	srv.filterByTitleSRV("b", filter1);
@@ -208,9 +213,9 @@ void Test::test_filterByYearSRV() {
 	Repository repo;
 	Validator valid;
 	Service srv{ repo, valid };
-	const Film f1 { "b", "b", 2002, "b" };
-	const Film f2 { "c", "c", 2001, "c" };
-	const Film f3 { "a", "a", 2000, "a" };
+	Film f1 { "b", "b", 2002, "b" };
+	Film f2 { "c", "c", 2001, "c" };
+	Film f3 { "a", "a", 2000, "a" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	vector<Film> filter1;
 	srv.filterByYearSRV(2001, filter1);
@@ -226,9 +231,9 @@ void Test::test_sortByTitleSRV() {
 	Repository repo;
 	Validator valid;
 	Service srv{ repo, valid };
-	const Film f1 { "b", "b", 2002, "b" };
-	const Film f2 { "c", "c", 2001, "c" };
-	const Film f3 { "a", "a", 2000, "a" };
+	Film f1 { "b", "b", 2002, "b" };
+	Film f2 { "c", "c", 2001, "c" };
+	Film f3 { "a", "a", 2000, "a" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	auto sorted = srv.getAllSRV();
 	srv.sortBySRV([](const Film& f1, const Film& f2) { return f1.getTitle() < f2.getTitle(); }, sorted);
@@ -242,9 +247,9 @@ void Test::test_sortByActorSRV() {
 	Repository repo;
 	Validator valid;
 	Service srv{ repo, valid };
-	const Film f1 { "b", "b", 2002, "m" };
-	const Film f2 { "c", "c", 2001, "o" };
-	const Film f3 { "a", "a", 2000, "n" };
+	Film f1 { "b", "b", 2002, "m" };
+	Film f2 { "c", "c", 2001, "o" };
+	Film f3 { "a", "a", 2000, "n" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	auto sorted = srv.getAllSRV();
 	srv.sortBySRV([](const Film& f1, const Film& f2) { return f1.getActor() < f2.getActor(); }, sorted);
@@ -258,9 +263,9 @@ void Test::test_sortByYearAndGenreSRV() {
 	Repository repo;
 	Validator valid;
 	Service srv{ repo, valid };
-	const Film f1 { "b", "c", 2001, "m" };
-	const Film f2 { "c", "b", 2001, "o" };
-	const Film f3 { "a", "a", 2000, "n" };
+	Film f1 { "b", "c", 2001, "m" };
+	Film f2 { "c", "b", 2001, "o" };
+	Film f3 { "a", "a", 2000, "n" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	auto sorted = srv.getAllSRV();
 	srv.sortBySRV(cmpYearAndGenre, sorted);
@@ -270,15 +275,31 @@ void Test::test_sortByYearAndGenreSRV() {
 	assert(sorted.at(2) == f1);
 }
 
+void Test::test_statistics() {
+	Repository repo;
+	Validator valid;
+	Service srv{ repo, valid };
+	Film f1{ "AA", "gen1", 2000, "DD" };
+	Film f2{ "BB", "gen2", 1990, "EE" };
+	Film f3{ "CC", "gen1", 2010, "FF" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
+	vector<DTO> stats = srv.statistics();
+	assert(stats.size() == 2);
+	assert(stats.at(0).getGenre() == "gen1");
+	assert(stats.at(0).getCount() == 2);
+	assert(stats.at(1).getGenre() == "gen2");
+	assert(stats.at(1).getCount() == 1);
+}
+
 //CART
 
 void Test::test_addToCart() {
 	Repository repo;
 	RepositoryCart repoc{ repo };
 	ServiceCart srvc{ repoc };
-	const Film f1{ "b", "c", 2001, "m" };
-	const Film f2{ "c", "b", 2001, "o" };
-	const Film f3{ "a", "a", 2000, "n" };
+	Film f1{ "b", "c", 2001, "m" };
+	Film f2{ "c", "b", 2001, "o" };
+	Film f3{ "a", "a", 2000, "n" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	assert(repoc.getCart().size() == 0);
 	srvc.addToCartSV("a");
@@ -315,9 +336,9 @@ void Test::test_generate() {
 	Repository repo;
 	RepositoryCart repoc{ repo };
 	ServiceCart srvc{ repoc };
-	const Film f1{ "b", "c", 2001, "m" };
-	const Film f2{ "c", "b", 2001, "o" };
-	const Film f3{ "a", "a", 2000, "n" };
+	Film f1{ "b", "c", 2001, "m" };
+	Film f2{ "c", "b", 2001, "o" };
+	Film f3{ "a", "a", 2000, "n" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	bool exceptionThrown = false;
 	try {
@@ -349,9 +370,9 @@ void Test::test_export() {
 	Repository repo;
 	RepositoryCart repoc{ repo };
 	ServiceCart srvc{ repoc };
-	const Film f1{ "b", "c", 2001, "m" };
-	const Film f2{ "c", "b", 2001, "o" };
-	const Film f3{ "a", "a", 2000, "n" };
+	Film f1{ "b", "c", 2001, "m" };
+	Film f2{ "c", "b", 2001, "o" };
+	Film f3{ "a", "a", 2000, "n" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
 	assert(repoc.getCart().size() == 0);
 	srvc.addToCartSV("a");
@@ -375,6 +396,7 @@ void Test::testAll() {
 	test_sortByTitleSRV();
 	test_sortByActorSRV();
 	test_sortByYearAndGenreSRV();
+	test_statistics();
 	//CART
 	test_addToCart();
 	test_generate();

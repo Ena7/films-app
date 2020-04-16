@@ -14,8 +14,9 @@ void RepositoryCart::clearCart() noexcept{
 }
 
 void RepositoryCart::addToCart(const string& title) {
-	auto found_film = std::find_if(repo.films.begin(), repo.films.end(), [&title](const Film& film) { return film.getTitle() == title; });
-	if (found_film != repo.films.end()) {
+	vector<Film> list = repo.getAllREPO();
+	auto found_film = std::find_if(list.begin(), list.end(), [&title](const Film& film) { return film.getTitle() == title; });
+	if (found_film != list.end()) {
 		auto not_found_cart = std::find(cart.begin(), cart.end(), *found_film);
 		if (not_found_cart == cart.end()) {
 			cart.push_back(*found_film);
@@ -28,7 +29,7 @@ void RepositoryCart::generate(const int& number) {
 	if (number <= 0) {
 		throw RepoException("\nThe number must not be zero or negative!\n"); }
 
-	if (number > repo.films.size()) {
+	if (number > repo.getAllREPO().size()) {
 		throw RepoException("\nThe number must not exceed the number of films!\n"); }
 
 	clearCart();
@@ -39,8 +40,9 @@ void RepositoryCart::generate(const int& number) {
 	//auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	auto seed = std::default_random_engine{};
 	std::shuffle(positions.begin(), positions.end(), seed);
+	
 	for (size_t pos = 0; pos < number; pos++) {
-		cart.push_back(repo.films.at(positions.at(pos)));
+		cart.push_back(repo.getAllREPO().at(positions.at(pos)));
 	}
 }
 

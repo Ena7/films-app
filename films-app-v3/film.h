@@ -9,10 +9,10 @@ class Film {
 	string genre;
 	int year;
 	string actor;
+	
 public:
-	Film() = delete;
-	Film(const string t, const string g, const int y, const string a) :title{ t }, genre{ g }, year{ y }, actor{ a } {}
-	//warning aici
+	Film() : title{ "" }, genre{ "" }, year{ 1801 }, actor{ "" } {}
+	Film(const string t, const string g, const int y, const string a) : title{ t }, genre{ g }, year{ y }, actor{ a } {}
 	//Film(const Film& f) : title{ f.title }, genre{ f.genre }, year{ f.year }, actor{ f.actor } {std::cout << " #"; }
 
 	//gettere

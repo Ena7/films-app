@@ -28,6 +28,9 @@
     <ClCompile Include="repoc.cpp">
       <Filter>Source\Cart</Filter>
     </ClCompile>
+    <ClCompile Include="DTO.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="srvc.h">
       <Filter>Headers\Cart</Filter>
+    </ClInclude>
+    <ClInclude Include="DTO.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
