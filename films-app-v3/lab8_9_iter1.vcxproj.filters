@@ -74,9 +74,22 @@
     <Filter Include="Source\Cart">
       <UniqueIdentifier>{360ab73a-f349-4361-8fb1-63ac0ef21c74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Files">
+      <UniqueIdentifier>{b2a4c144-0305-45cb-af14-88dd4daac25b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="export.csv" />
-    <None Include="test.csv" />
+    <None Include="export.csv">
+      <Filter>Files</Filter>
+    </None>
+    <None Include="films.csv">
+      <Filter>Files</Filter>
+    </None>
+    <None Include="test_export.csv">
+      <Filter>Files</Filter>
+    </None>
+    <None Include="test.csv">
+      <Filter>Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

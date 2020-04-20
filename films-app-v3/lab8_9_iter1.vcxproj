@@ -171,7 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="export.csv" />
+    <None Include="films.csv" />
     <None Include="test.csv" />
+    <None Include="test_export.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

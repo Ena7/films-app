@@ -378,10 +378,10 @@ void Test::test_export() {
 	srvc.addToCartSV("a");
 	srvc.addToCartSV("b");
 	assert(repoc.getCart().size() == 2);
-	srvc.exportSV("test.csv");
+	srvc.exportSV("test_export.csv");
 	vector<Film> list;
 	string title, genre, year, actor;
-	std::ifstream fin("test.csv");
+	std::ifstream fin("test_export.csv");
 	while (!fin.eof()) {
 		std::getline(fin, title, ',');
 		if (fin.eof()) break;
@@ -395,6 +395,84 @@ void Test::test_export() {
 	assert(list.size() == 2);
 	assert(list.at(0) == f3);
 	assert(list.at(1) == f1);
+}
+
+//test.csv content:
+//avatar, SF, 2009, worthington
+//interstellar, SF, 2014, mcconaughey
+//fury, War, 2014, pitt
+
+
+void Test::test_file_addREPO() {
+	FileRepository repo{ "test.csv" };
+	Film f{ "a", "a", 2000, "a" };
+	assert(repo.getAllREPO().size() == 3);
+	repo.addREPO(f);
+	assert(repo.getAllREPO().size() == 4);
+	bool exceptionThrown = false;
+	try {
+		//already added
+		repo.addREPO(f); 
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+	assert(repo.getAllREPO().size() == 4);
+	//restore file
+	repo.removeREPO("a", 2000);
+}
+
+void Test::test_file_removeREPO() {
+	FileRepository repo{ "test.csv" };
+	assert(repo.getAllREPO().size() == 3);
+	repo.removeREPO("interstellar", 2014);
+	assert(repo.getAllREPO().size() == 2);
+	repo.removeREPO("avatar", 2009);
+	assert(repo.getAllREPO().size() == 1);
+	assert(repo.getAllREPO().at(0).getTitle() == "fury");
+	bool exceptionThrown = false;
+	try {
+		//doesn't exist
+		repo.removeREPO("no", 2014); 
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+	assert(repo.getAllREPO().size() == 1);
+	//restore file
+	repo.removeREPO("fury", 2014);
+	assert(repo.getAllREPO().size() == 0);
+	Film f1 = { "avatar", "SF", 2009, "worthington" };
+	Film f2 = { "interstellar", "SF", 2014, "mcconaughey" };
+	Film f3 = { "fury", "War", 2014, "pitt" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
+	assert(repo.getAllREPO().size() == 3);
+}
+
+void Test::test_file_editREPO() {
+	FileRepository repo{ "test.csv" };
+	assert(repo.getAllREPO().size() == 3);
+	repo.editREPO("interstellar", "m", "n", 1901, "o");
+	assert(repo.getAllREPO().size() == 3);
+	assert(repo.getAllREPO().at(1).getTitle() == "m");
+	assert(repo.getAllREPO().at(1).getGenre() == "n");
+	assert(repo.getAllREPO().at(1).getYear() == 1901);
+	assert(repo.getAllREPO().at(1).getActor() == "o");
+	bool exceptionThrown = false;
+	try {
+		//doesn't exist
+		repo.editREPO("noexist", "s", "t", 1902, "u");
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+	assert(repo.getAllREPO().size() == 3);
+	//restore file
+	repo.editREPO("m", "interstellar", "SF", 2014, "mcconaughey");
+	assert(repo.getAllREPO().size() == 3);
 }
 
 
@@ -417,4 +495,8 @@ void Test::testAll() {
 	test_addToCart();
 	test_generate();
 	test_export();
+	//FILE
+	test_file_addREPO();
+	test_file_removeREPO();
+	test_file_editREPO();
 }

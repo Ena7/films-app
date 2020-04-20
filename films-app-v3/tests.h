@@ -19,6 +19,10 @@ class Test {
 	void test_addToCart();
 	void test_generate();
 	void test_export();
+	//FILE
+	void test_file_addREPO();
+	void test_file_removeREPO();
+	void test_file_editREPO();
 
 public:
 	void testAll();

@@ -29,13 +29,13 @@ public:
 	Repository(const Repository& nocopy) = delete;
 
 	//aduga la lista de filme un film
-	void addREPO(Film& film);
+	virtual void addREPO(Film& film);
 
 	//sterge un film avand un titlu dat
-	void removeREPO(const string& title, const int& year);
+	virtual void removeREPO(const string& title, const int& year);
 
 	//cauta filmul cu titlu dat, apoi ii modifica toate atributele cu cele noi
-	void editREPO(const string& title, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor);
+	virtual void editREPO(const string& title, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor);
 
 	//returneaza filmul cu titlul dat
 	const Film& findREPO(const string& title, const int& year) const;
@@ -43,4 +43,27 @@ public:
 	//returneaza lista de filme in ordinea adaugarii
 	vector<Film> getAllREPO() const noexcept;
 	
+};
+
+class FileRepository : public Repository {
+private:
+	string filename;
+	void readFile();
+	void writeFile();
+public:
+	FileRepository(const string& filename) : Repository(), filename{ filename } {
+		readFile();
+	}
+	void addREPO(Film& film) override {
+		Repository::addREPO(film);
+		writeFile();
+	}
+	void removeREPO(const string& title, const int& year) override {
+		Repository::removeREPO(title, year);
+		writeFile();
+	}
+	void editREPO(const string& title, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor) override {
+		Repository::editREPO(title, newtitle, newgenre, newyear, newactor);
+		writeFile();
+	}
 };

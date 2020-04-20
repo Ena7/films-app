@@ -1,6 +1,7 @@
 #include "repo.h"
 #include <algorithm>
 #include <exception>
+#include <fstream>
 
 ostream& operator<<(ostream& out, const RepoException& ex){
 	out << ex.msg;
@@ -52,5 +53,30 @@ vector<Film> Repository::getAllREPO() const noexcept{
 		list.push_back(iterator.second);
 	}
 	return list;
+}
+
+void FileRepository::readFile() {
+	std::ifstream fin(filename);
+	if (!fin.is_open()) { throw RepoException("\nError open file!\n"); }
+	while (!fin.eof()) {
+		string title, genre, year, actor;
+		std::getline(fin, title, ',');
+		if (fin.eof()) break;
+		std::getline(fin, genre, ',');
+		std::getline(fin, year, ',');
+		std::getline(fin, actor, '\n');
+		Film f{ title, genre, std::stoi(year), actor };
+		Repository::addREPO(f);
+	}
+	fin.close();
+}
+
+void FileRepository::writeFile() {
+	std::ofstream fout(filename);
+	if (!fout.is_open()) { throw RepoException("\nError open file!\n"); }
+	for (const Film& film : getAllREPO()) {
+		fout << film.getTitle() << "," << film.getGenre() << "," << film.getYear() << "," << film.getActor() << std::endl;
+	}
+	fout.close();
 }
 
