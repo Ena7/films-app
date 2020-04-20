@@ -296,7 +296,7 @@ void Test::test_statistics() {
 void Test::test_addToCart() {
 	Repository repo;
 	RepositoryCart repoc{ repo };
-	ServiceCart srvc{ repoc };
+	ServiceCart srvc{ repoc, repo };
 	Film f1{ "b", "c", 2001, "m" };
 	Film f2{ "c", "b", 2001, "o" };
 	Film f3{ "a", "a", 2000, "n" };
@@ -335,7 +335,7 @@ void Test::test_addToCart() {
 void Test::test_generate() {
 	Repository repo;
 	RepositoryCart repoc{ repo };
-	ServiceCart srvc{ repoc };
+	ServiceCart srvc{ repoc, repo };
 	Film f1{ "b", "c", 2001, "m" };
 	Film f2{ "c", "b", 2001, "o" };
 	Film f3{ "a", "a", 2000, "n" };
@@ -343,7 +343,7 @@ void Test::test_generate() {
 	bool exceptionThrown = false;
 	try {
 		//negative or zero value
-		srvc.generateSV(-1);
+		srvc.generate(-1);
 	}
 	catch (RepoException&) {
 		exceptionThrown = true;
@@ -354,7 +354,7 @@ void Test::test_generate() {
 	exceptionThrown = false;
 	try {
 		//exceeds total number
-		srvc.generateSV(4);
+		srvc.generate(4);
 	}
 	catch (RepoException&) {
 		exceptionThrown = true;
@@ -362,14 +362,14 @@ void Test::test_generate() {
 	assert(exceptionThrown);
 
 	assert(repoc.getCart().size() == 0);
-	srvc.generateSV(3);
+	srvc.generate(3);
 	assert(repoc.getCart().size() == 3);
 }
 
 void Test::test_export() {
 	Repository repo;
 	RepositoryCart repoc{ repo };
-	ServiceCart srvc{ repoc };
+	ServiceCart srvc{ repoc, repo };
 	Film f1{ "b", "c", 2001, "m" };
 	Film f2{ "c", "b", 2001, "o" };
 	Film f3{ "a", "a", 2000, "n" };
@@ -379,6 +379,22 @@ void Test::test_export() {
 	srvc.addToCartSV("b");
 	assert(repoc.getCart().size() == 2);
 	srvc.exportSV("test.csv");
+	vector<Film> list;
+	string title, genre, year, actor;
+	std::ifstream fin("test.csv");
+	while (!fin.eof()) {
+		std::getline(fin, title, ',');
+		if (fin.eof()) break;
+		std::getline(fin, genre, ',');
+		std::getline(fin, year, ',');
+		std::getline(fin, actor, '\n');
+		Film f { title, genre, std::stoi(year), actor };
+		list.push_back(f);
+	}
+	fin.close();
+	assert(list.size() == 2);
+	assert(list.at(0) == f3);
+	assert(list.at(1) == f1);
 }
 
 

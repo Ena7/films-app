@@ -1,11 +1,13 @@
 #pragma once
 #include "repoc.h"
+#include <fstream>
 
 class ServiceCart {
 	RepositoryCart& repoc;
+	Repository& repo;
 
 public:
-	ServiceCart(RepositoryCart& repoc) noexcept : repoc{ repoc } {}
+	ServiceCart(RepositoryCart& repoc, Repository& repo) noexcept : repoc{ repoc }, repo{ repo } {}
 
 	//nu permite copierea de obiecte ServiceCart
 	ServiceCart(const ServiceCart& nocopy) = delete;
@@ -18,10 +20,10 @@ public:
 	//adauga un film in cos dupa titlu
 	//exceptie daca: filmul nu exista in lista de filme sau filmul deja se afla in cos
 	void addToCartSV(const string& title);
-	
+
 	//alege aleatoriu un numar dat de filme si le adauga in cos
 	//exceptie daca: numarul este negativ/nul sau depaseste numarul de filme din lista de filme
-	void generateSV(const int& number);
+	void generate(const int& number);
 
 	//scrie intr-un fisier dat toate filmele din cos
 	//exceptie daca: eroare la deschidere fisier

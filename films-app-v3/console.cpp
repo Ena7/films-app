@@ -109,7 +109,7 @@ void Console::addToCartUI() {
 void Console::generateUI() {
 	int number;
 	cout << "Input the number of random films to be added: "; cin >> number;
-	srvc.generateSV(number);
+	srvc.generate(number);
 }
 
 void Console::exportUI() {

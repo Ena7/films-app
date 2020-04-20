@@ -18,7 +18,7 @@ void mainApp() {
 	Validator valid;
 
 	Service srv{ repo, valid };
-	ServiceCart srvc{ repoc };
+	ServiceCart srvc{ repoc, repo };
 
 	Console ui{ srv, srvc };
 
