@@ -5,11 +5,11 @@
 
 class ServiceCart {
 	RepositoryCart& repoc;
-	Repository& repo;
+	IRepo& repo;
 	std::vector<std::unique_ptr<UndoAction>> undoActionsCart;
 
 public:
-	ServiceCart(RepositoryCart& repoc, Repository& repo) noexcept : repoc{ repoc }, repo{ repo } {}
+	ServiceCart(RepositoryCart& repoc, IRepo& repo) noexcept : repoc{ repoc }, repo{ repo } {}
 
 	//nu permite copierea de obiecte ServiceCart
 	ServiceCart(const ServiceCart& nocopy) = delete;

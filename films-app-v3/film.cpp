@@ -16,21 +16,22 @@ string Film::getActor() const {
 	return actor;
 }
 
-void Film::setTitle(const string& newtitle) {
-	title = newtitle;
-}
-
-void Film::setGenre(const string& newgenre) {
-	genre = newgenre;
-}
-
-void Film::setYear(const int& newyear) noexcept {
-	year = newyear;
-}
-
-void Film::setActor(const string& newactor) {
-	actor = newactor;
-}
+//not used
+//void Film::setTitle(const string& newtitle) {
+//	title = newtitle;
+//}
+//
+//void Film::setGenre(const string& newgenre) {
+//	genre = newgenre;
+//}
+//
+//void Film::setYear(const int& newyear) noexcept {
+//	year = newyear;
+//}
+//
+//void Film::setActor(const string& newactor) {
+//	actor = newactor;
+//}
 
 bool Film::operator==(const Film& film) const noexcept {
 	return title == film.title && genre == film.genre && year == film.year && actor == film.actor;

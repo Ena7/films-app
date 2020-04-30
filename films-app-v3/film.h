@@ -22,10 +22,10 @@ public:
 	string getActor() const;
 
 	//settere
-	void setTitle(const string& newtitle);
-	void setGenre(const string& newgenre);
-	void setYear(const int& newyear) noexcept;
-	void setActor(const string& newactor);
+	//void setTitle(const string& newtitle);
+	//void setGenre(const string& newgenre);
+	//void setYear(const int& newyear) noexcept;
+	//void setActor(const string& newactor);
 
 	//overriden operators
 	bool operator==(const Film& film) const noexcept;

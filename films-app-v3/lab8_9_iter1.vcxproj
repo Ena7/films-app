@@ -169,6 +169,7 @@
     <ClInclude Include="tests.h" />
     <ClInclude Include="undo.h" />
     <ClInclude Include="valid.h" />
+    <ClInclude Include="virtualrepo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="export.csv" />

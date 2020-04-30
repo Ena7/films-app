@@ -1,9 +1,11 @@
 #pragma once
 #include "film.h"
+#include "virtualrepo.h"
 #include <vector>
 #include <string>
 #include <ostream>
 #include <unordered_map>
+#include <cstdlib>
 
 using std::vector;
 using std::string;
@@ -18,10 +20,7 @@ public:
 
 ostream& operator<<(ostream& out, const RepoException& ex);
 
-class Repository {
-private:
-	std::unordered_map<string,Film> films;
-
+class Repository: public IRepo {
 public:
 	Repository() = default;
 	//nu permite copierea de obiecte Repository
@@ -37,7 +36,7 @@ public:
 	virtual void editREPO(const string& title, const int& year, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor);
 
 	//returneaza filmul cu titlul si anul dat
-	const Film& findREPO(const string& title, const int& year) const;
+	virtual const Film& findREPO(const string& title, const int& year) const;
 
 	//returneaza lista de filme in ordinea adaugarii
 	vector<Film> getAllREPO() const noexcept;
@@ -64,5 +63,33 @@ public:
 	void editREPO(const string& title, const int& year, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor) override {
 		Repository::editREPO(title, year, newtitle, newgenre, newyear, newactor);
 		writeFile();
+	}
+};
+
+class RandExRepo : public Repository {
+private:
+	float probability;
+public:
+	void ExTriggered(float rdm) {
+		if (rdm < probability) {
+			throw RepoException("#Random exception triggered!#\n");
+		}
+	}
+	RandExRepo() : Repository(), probability{ float(rand() % 10) / 10 } {}
+
+	void addREPO(Film& film) override {
+		Repository::addREPO(film);
+		float rdm = float(rand() % 10) / 10;
+		ExTriggered(rdm);
+	}
+	void removeREPO(const string& title, const int& year) override {
+		Repository::removeREPO(title, year);
+		float rdm = float(rand() % 10) / 10;
+		ExTriggered(rdm);
+	}
+	void editREPO(const string& title, const int& year, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor) override {
+		Repository::editREPO(title, year, newtitle, newgenre, newyear, newactor);
+		float rdm = float(rand() % 10) / 10;
+		ExTriggered(rdm);
 	}
 };

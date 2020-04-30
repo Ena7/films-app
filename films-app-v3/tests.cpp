@@ -440,11 +440,45 @@ void Test::test_export() {
 	assert(list.at(1) == f1);
 }
 
-//test.csv content:
-//avatar, SF, 2009, worthington
-//interstellar, SF, 2014, mcconaughey
-//fury, War, 2014, pitt
+void Test::test_undoCart() {
+	Repository repo;
+	RepositoryCart repoc{ repo };
+	ServiceCart srvc{ repoc, repo };
+	Film f1{ "b", "c", 2001, "m" };
+	Film f2{ "c", "b", 2001, "o" };
+	Film f3{ "a", "a", 2000, "n" };
+	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
+	bool exceptionThrown = false;
+	try {
+		srvc.undoCart();
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
 
+	assert(repoc.getCart().size() == 0);
+	srvc.addToCartSV("a");
+	srvc.addToCartSV("b");
+	assert(repoc.getCart().size() == 2);
+	srvc.clearCartSV();
+	assert(repoc.getCart().size() == 0);
+	srvc.undoCart();
+	assert(repoc.getCart().size() == 2);
+	assert(repoc.getCart().at(0) == f3);
+	assert(repoc.getCart().at(1) == f1);
+	srvc.generate(3);
+	assert(repoc.getCart().size() == 3);
+	srvc.clearCartSV();
+	assert(repoc.getCart().size() == 0);
+	srvc.undoCart();
+	assert(repoc.getCart().size() == 3);
+}
+
+//test.csv content:
+//interstellar, SF, 2014, mcconaughey
+//avatar, SF, 2009, worthington
+//fury, War, 2014, pitt
 
 void Test::test_file_addREPO() {
 	FileRepository repo{ "test.csv" };
@@ -539,6 +573,7 @@ void Test::testAll() {
 	test_addToCart();
 	test_generate();
 	test_export();
+	test_undoCart();
 	//FILE
 	test_file_addREPO();
 	test_file_removeREPO();

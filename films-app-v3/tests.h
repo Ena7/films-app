@@ -20,6 +20,7 @@ class Test {
 	void test_addToCart();
 	void test_generate();
 	void test_export();
+	void test_undoCart();
 	//FILE
 	void test_file_addREPO();
 	void test_file_removeREPO();

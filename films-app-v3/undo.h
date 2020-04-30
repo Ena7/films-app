@@ -9,32 +9,32 @@ public:
 };
 
 class UndoAdd : public UndoAction {
-	Repository& repo;
+	IRepo& repo;
 	Film addedFilm;
 public:
-	UndoAdd(Repository& repo, const Film& film) : repo{ repo }, addedFilm{ film } {}
+	UndoAdd(IRepo& repo, const Film& film) : repo{ repo }, addedFilm{ film } {}
 	void doUndo() override {
 		repo.removeREPO(addedFilm.getTitle(), addedFilm.getYear());
 	}
 };
 
 class UndoRemove : public UndoAction {
-	Repository& repo;
+	IRepo& repo;
 	Film removedFilm;
 public:
-	UndoRemove(Repository& repo, const Film& film) : repo{ repo }, removedFilm{ film } {}
+	UndoRemove(IRepo& repo, const Film& film) : repo{ repo }, removedFilm{ film } {}
 	void doUndo() override {
 		repo.addREPO(removedFilm);
 	}
 };
 
 class UndoEdit : public UndoAction {
-	Repository& repo;
+	IRepo& repo;
 	Film editedFilm;
 	string newtitle;
 	int newyear;
 public:
-	UndoEdit(Repository& repo, const Film& film, const string& newtitle, const int& newyear) : repo{ repo }, editedFilm{ film }, newtitle{ newtitle }, newyear{ newyear } {}
+	UndoEdit(IRepo& repo, const Film& film, const string& newtitle, const int& newyear) : repo{ repo }, editedFilm{ film }, newtitle{ newtitle }, newyear{ newyear } {}
 	void doUndo() override {
 		repo.removeREPO(newtitle, newyear);
 		repo.addREPO(editedFilm);

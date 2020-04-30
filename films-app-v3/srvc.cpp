@@ -48,8 +48,7 @@ void ServiceCart::exportSV(const string& filename) {
 
 void ServiceCart::undoCart() {
 	if (undoActionsCart.empty()) {
-		throw RepoException("\nThere is nothing to undo!\n");
-	}
+		throw RepoException("\nThere is nothing to undo!\n"); }
 	undoActionsCart.back()->doUndo();
 	undoActionsCart.pop_back();
 }

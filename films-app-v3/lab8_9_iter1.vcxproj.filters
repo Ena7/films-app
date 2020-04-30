@@ -63,6 +63,9 @@
     <ClInclude Include="undo.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="virtualrepo.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

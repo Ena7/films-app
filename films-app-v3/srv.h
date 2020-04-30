@@ -1,5 +1,6 @@
 #pragma once
 #include "repo.h"
+#include "virtualrepo.h"
 #include "valid.h"
 #include "DTO.h"
 #include "undo.h"
@@ -7,13 +8,13 @@
 #include <memory>
 
 class Service {
-	Repository& repo;
+	IRepo& repo;
 	Validator& valid;
 	std::vector<std::unique_ptr<UndoAction>> undoActions;
 
 public:
 	
-	Service(Repository& repo, Validator& valid) noexcept: repo{ repo }, valid{ valid } {}
+	Service(IRepo& repo, Validator& valid) noexcept: repo{ repo }, valid{ valid } {}
 
 	//nu permite copierea de obiecte Service
 	Service(const Service& nocopy) = delete;
