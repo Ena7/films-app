@@ -37,13 +37,14 @@ void Console::removeUI() {
 }
 
 void Console::editUI() {
-	string title, newtitle, newgenre, newactor; int newyear;
+	string title, newtitle, newgenre, newactor; int year, newyear;
 	cout << "Input title: "; cin >> title;
+	cout << "Input year: "; checkInt(year);
 	cout << "Input new title: "; cin >> newtitle;
 	cout << "Input new genre: "; cin >> newgenre;
 	cout << "Input new year: "; checkInt(newyear);
 	cout << "Input new actor: "; cin >> newactor;
-	srv.editSRV(title, newtitle, newgenre, newyear, newactor);
+	srv.editSRV(title, year, newtitle, newgenre, newyear, newactor);
 }
 
 void Console::findUI() {
@@ -120,7 +121,7 @@ void Console::exportUI() {
 
 void Console::run() {
 	while (true) {
-		cout << "\n   == Films database ==\n\n  1. Add\n  2. Remove\n  3. Edit\n  4. Print\n  5. Find\n  6. Filter by title\n  7. Filter by year\n  8. Sort by title\n  9. Sort by actor\n 10. Sort by year and genre\n 11. Statistics\n\n   == Your cart ==\n > You cart has " << srvc.getCart().size() << " film(s)!\n\n 12. Clear cart\n 13. Add to cart\n 14. Add to cart a number of random flims\n 15. Export your cart to a file \n\n  0. Exit\n\n Input: ";
+		cout << "\n   == Films database ==\n\n  1. Add\n  2. Remove\n  3. Edit\n  4. Print\n  5. Find\n  6. Filter by title\n  7. Filter by year\n  8. Sort by title\n  9. Sort by actor\n 10. Sort by year and genre\n 11. Statistics\n 12. Undo\n\n   == Your cart ==\n > You cart has " << srvc.getCart().size() << " film(s)!\n\n 13. Clear cart\n 14. Add to cart\n 15. Add to cart a number of random flims\n 16. Export your cart to a file \n\n  0. Exit\n\n Input: ";
 		int cmd;
 		checkInt(cmd);
 		try {
@@ -189,15 +190,21 @@ void Console::run() {
 				statisticsUI();
 				break;
 			case 12:
-				srvc.clearCartSV();
+				if (srv.getAllSRV().size() == 0) {
+					throw RepoException("\nThere are no films in the database!");
+				}
+				srv.undo();
 				break;
 			case 13:
-				addToCartUI();
+				srvc.clearCartSV();
 				break;
 			case 14:
-				generateUI();
+				addToCartUI();
 				break;
 			case 15:
+				generateUI();
+				break;
+			case 16:
 				if (srvc.getCart().size() == 0) {
 					throw RepoException("\nThere are no films in the cart!");
 				}

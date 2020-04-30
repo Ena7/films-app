@@ -62,15 +62,15 @@ void Test::test_editREPO() {
 	Film f2{ "b", "b", 2001, "b" };
 	Film f3{ "b", "b", 2002, "b" };
 	repo.addREPO(f1); repo.addREPO(f2); repo.addREPO(f3);
-	repo.editREPO("b", "m", "n", 1901, "o");
+	repo.editREPO("b", 2001, "m", "n", 1901, "o");
 	assert(repo.getAllREPO().size() == 3);
-	assert(repo.getAllREPO().at(1).getTitle() == "m");
-	assert(repo.getAllREPO().at(1).getGenre() == "n");
-	assert(repo.getAllREPO().at(1).getYear() == 1901);
-	assert(repo.getAllREPO().at(1).getActor() == "o");
+	assert(repo.getAllREPO().at(2).getTitle() == "m");
+	assert(repo.getAllREPO().at(2).getGenre() == "n");
+	assert(repo.getAllREPO().at(2).getYear() == 1901);
+	assert(repo.getAllREPO().at(2).getActor() == "o");
 	bool exceptionThrown = false;
 	try {
-		repo.editREPO("e", "s", "t", 1902, "u"); }
+		repo.editREPO("b", 1900, "s", "t", 1902, "u"); }
 	catch (RepoException&) {
 		exceptionThrown = true;
 	}
@@ -157,15 +157,15 @@ void Test::test_editSRV() {
 	srv.addSRV("a", "a", 2000, "a");
 	srv.addSRV("b", "b", 2001, "b");
 	srv.addSRV("c", "c", 2002, "c");
-	srv.editSRV("b", "m", "n", 1901, "o");
+	srv.editSRV("b", 2001, "m", "n", 1901, "o");
 	assert(srv.getAllSRV().size() == 3);
-	assert(srv.getAllSRV().at(1).getTitle() == "m");
-	assert(srv.getAllSRV().at(1).getGenre() == "n");
-	assert(srv.getAllSRV().at(1).getYear() == 1901);
-	assert(srv.getAllSRV().at(1).getActor() == "o");
+	assert(srv.getAllSRV().at(2).getTitle() == "m");
+	assert(srv.getAllSRV().at(2).getGenre() == "n");
+	assert(srv.getAllSRV().at(2).getYear() == 1901);
+	assert(srv.getAllSRV().at(2).getActor() == "o");
 	bool exceptionThrown = false;
 	try {
-		srv.editSRV("e", "s", "t", 1902, "u"); }
+		srv.editSRV("b", 1900, "s", "t", 1902, "u"); }
 	catch (RepoException&) {
 		exceptionThrown = true;
 	}
@@ -289,6 +289,49 @@ void Test::test_statistics() {
 	assert(stats.at(0).getCount() == 2);
 	assert(stats.at(1).getGenre() == "gen2");
 	assert(stats.at(1).getCount() == 1);
+}
+
+void Test::test_undo() {
+	Repository repo;
+	Validator valid;
+	Service srv{ repo, valid };
+	//no anterior actions
+	bool exceptionThrown = false;
+	try {
+		srv.undo();
+	}
+	catch (RepoException&) {
+		exceptionThrown = true;
+	}
+	assert(exceptionThrown);
+	//initial list
+	srv.addSRV("AA", "gen1", 2000, "DD");
+	srv.addSRV("BB", "gen2", 1990, "EE");
+	srv.addSRV("CC", "gen1", 2010, "FF");
+	//test add
+	srv.addSRV("DD", "gen3", 2010, "GG");
+	assert(repo.getAllREPO().size() == 4);
+	srv.undo(); 
+	assert(repo.getAllREPO().size() == 3);
+	//test remove
+	srv.removeSRV("AA", 2000);
+	srv.removeSRV("BB", 1990);
+	assert(repo.getAllREPO().size() == 1);
+	srv.undo(); 
+	assert(repo.getAllREPO().size() == 2);
+	srv.undo();
+	assert(repo.getAllREPO().size() == 3);
+	//test edit
+	srv.editSRV("BB", 1990, "XX", "YY", 2020, "ZZ");
+	assert(repo.getAllREPO().size() == 3);
+	assert(repo.getAllREPO().at(1).getTitle() == "XX");
+	srv.undo();
+	assert(repo.getAllREPO().at(2).getTitle() == "BB");
+	//should look like the initial list (not necessarily in the same order)
+	assert(repo.getAllREPO().size() == 3);
+	assert(repo.getAllREPO().at(0).getTitle() == "CC");
+	assert(repo.getAllREPO().at(1).getTitle() == "AA");
+	assert(repo.getAllREPO().at(2).getTitle() == "BB");
 }
 
 //CART
@@ -430,7 +473,7 @@ void Test::test_file_removeREPO() {
 	assert(repo.getAllREPO().size() == 2);
 	repo.removeREPO("avatar", 2009);
 	assert(repo.getAllREPO().size() == 1);
-	assert(repo.getAllREPO().at(0).getTitle() == "fury");
+	assert(repo.findREPO("fury", 2014).getTitle() == "fury");
 	bool exceptionThrown = false;
 	try {
 		//doesn't exist
@@ -454,16 +497,17 @@ void Test::test_file_removeREPO() {
 void Test::test_file_editREPO() {
 	FileRepository repo{ "test.csv" };
 	assert(repo.getAllREPO().size() == 3);
-	repo.editREPO("interstellar", "m", "n", 1901, "o");
+	repo.editREPO("interstellar", 2014, "m", "n", 1901, "o");
 	assert(repo.getAllREPO().size() == 3);
-	assert(repo.getAllREPO().at(1).getTitle() == "m");
-	assert(repo.getAllREPO().at(1).getGenre() == "n");
-	assert(repo.getAllREPO().at(1).getYear() == 1901);
-	assert(repo.getAllREPO().at(1).getActor() == "o");
+	auto match = repo.findREPO("m", 1901);
+	assert(match.getTitle() == "m");
+	assert(match.getGenre() == "n");
+	assert(match.getYear() == 1901);
+	assert(match.getActor() == "o");
 	bool exceptionThrown = false;
 	try {
 		//doesn't exist
-		repo.editREPO("noexist", "s", "t", 1902, "u");
+		repo.editREPO("noexist", 2014, "s", "t", 1902, "u");
 	}
 	catch (RepoException&) {
 		exceptionThrown = true;
@@ -471,10 +515,9 @@ void Test::test_file_editREPO() {
 	assert(exceptionThrown);
 	assert(repo.getAllREPO().size() == 3);
 	//restore file
-	repo.editREPO("m", "interstellar", "SF", 2014, "mcconaughey");
+	repo.editREPO("m", 1901, "interstellar", "SF", 2014, "mcconaughey");
 	assert(repo.getAllREPO().size() == 3);
 }
-
 
 void Test::testAll() {
 	test_addREPO();
@@ -491,6 +534,7 @@ void Test::testAll() {
 	test_sortByActorSRV();
 	test_sortByYearAndGenreSRV();
 	test_statistics();
+	test_undo();
 	//CART
 	test_addToCart();
 	test_generate();

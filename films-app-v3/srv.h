@@ -2,10 +2,14 @@
 #include "repo.h"
 #include "valid.h"
 #include "DTO.h"
+#include "undo.h"
+#include <vector>
+#include <memory>
 
 class Service {
 	Repository& repo;
 	Validator& valid;
+	std::vector<std::unique_ptr<UndoAction>> undoActions;
 
 public:
 	
@@ -14,19 +18,21 @@ public:
 	//nu permite copierea de obiecte Service
 	Service(const Service& nocopy) = delete;
 
+	void operator=(const Service& nocopy) = delete;
+
 	//creeaza un film, avand atributele: titlu, gen, anul aparitiei si actor principal
 	void addSRV(const string& title, const string& genre, int year, const string& actor);
 
 	//returneaza lista de filme in ordinea adaugarii
 	vector<Film> getAllSRV() const noexcept;
 
-	//sterge un film avand titlul dat
+	//sterge un film avand titlul si anul dat
 	void removeSRV(const string& title, const int& year);
 
-	//cauta filmul cu titlu dat, apoi ii modifica toate atributele cu cele noi
-	void editSRV(const string& title, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor);
+	//cauta filmul cu titlul si anul dat, apoi ii modifica toate atributele cu cele noi
+	void editSRV(const string& title, const int& year, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor);
 
-	//returneaza filmul cu titlul dat
+	//returneaza filmul cu titlul si anul dat
 	const Film& findSRV(const string& title, const int& year) const;
 
 	//returneaza o lista de filme ale caror titluri incep cu o litera data
@@ -45,6 +51,10 @@ public:
 	//returneaza un vector reprezentand un raport ce contine numarul de filme pentru fiecare gen existent
 	//in baza de date
 	vector<DTO> statistics();
+
+	//restore last operation
+	//exception: there isn't any anterior operation
+	void undo();
 };
 
 

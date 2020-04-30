@@ -167,6 +167,7 @@
     <ClInclude Include="srv.h" />
     <ClInclude Include="srvc.h" />
     <ClInclude Include="tests.h" />
+    <ClInclude Include="undo.h" />
     <ClInclude Include="valid.h" />
   </ItemGroup>
   <ItemGroup>

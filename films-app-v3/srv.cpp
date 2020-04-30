@@ -5,10 +5,18 @@
 #include <map>
 using std::map;
 
+void Service::undo() {
+	if (undoActions.empty()) {
+		throw RepoException("\nThere is nothing to undo!\n"); }
+	undoActions.back()->doUndo();
+	undoActions.pop_back();
+}
+
 void Service::addSRV(const string& title, const string& genre, int year, const string& actor) {
 	Film film{ title, genre, year, actor };
 	valid.validate(film);
 	repo.addREPO(film);
+	undoActions.push_back(std::make_unique<UndoAdd>(repo, film));
 }
 
 vector<Film> Service::getAllSRV() const noexcept{
@@ -16,11 +24,15 @@ vector<Film> Service::getAllSRV() const noexcept{
 }
 
 void Service::removeSRV(const string& title, const int& year){
+	const Film removed_film = repo.findREPO(title, year);
 	repo.removeREPO(title, year);
+	undoActions.push_back(std::make_unique<UndoRemove>(repo, removed_film));
 }
 
-void Service::editSRV(const string& title, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor){
-	repo.editREPO(title, newtitle, newgenre, newyear, newactor);
+void Service::editSRV(const string& title, const int& year, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor){
+	const Film old_film = repo.findREPO(title, year);
+	repo.editREPO(title, year, newtitle, newgenre, newyear, newactor);
+	undoActions.push_back(std::make_unique<UndoEdit>(repo, old_film, newtitle, newyear));
 }
 
 const Film& Service::findSRV(const string& title, const int& year) const{

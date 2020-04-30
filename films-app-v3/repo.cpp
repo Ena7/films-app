@@ -9,39 +9,32 @@ ostream& operator<<(ostream& out, const RepoException& ex){
 }
 
 void Repository::addREPO(Film& film){
-	if (films.size() == 0) {
-		films[0] = film;
-		uniq = 1;
-		return;
-	}
-	auto match = std::find_if(films.begin(), films.end(), [&film](const auto& it) noexcept { return it.second == film; });
-	if (match != films.end()) {
+	if (films.find(film.getTitle() + std::to_string(film.getYear())) != films.end()) {
 		throw RepoException("\nThe film with this title and year already exists!\n");
 	}
-	films[uniq++] = film;
+	films[film.getTitle() + std::to_string(film.getYear())] = film;
 }
 
 void Repository::removeREPO(const string& title, const int& year){
-	auto match = std::find_if(films.begin(), films.end(), [&title, &year](const auto& it) { return it.second.getTitle() == title && it.second.getYear() == year; });
+	auto match = films.find(title + std::to_string(year));
 	if(match != films.end()){
 		films.erase(match);
 		return;
 	}
 	throw RepoException("\nThis film does not exist!\n"); }
 
-void Repository::editREPO(const string& title, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor){
-	auto match = std::find_if(films.begin(), films.end(), [&title](const auto& it) { return it.second.getTitle() == title; });
+void Repository::editREPO(const string& title, const int& year, const string& newtitle, const string& newgenre, const int& newyear, const string& newactor){
+	auto match = films.find(title + std::to_string(year));
 	if (match != films.end()) {
-		match->second.setTitle(newtitle);
-		match->second.setGenre(newgenre);
-		match->second.setYear(newyear);
-		match->second.setActor(newactor);
+		removeREPO(title, year);
+		Film f{ newtitle, newgenre, newyear, newactor };
+		addREPO(f);
 		return;
 	}
 	throw RepoException("\nThe film with the specified title and year does not exist!\n"); }
 
 const Film& Repository::findREPO(const string& title, const int& year) const{
-	auto match = std::find_if(films.begin(), films.end(), [&title, &year](const auto& it) { return it.second.getTitle() == title && it.second.getYear() == year; });
+	auto match = films.find(title + std::to_string(year));
 	if (match != films.end()) {
 		return match->second;
 	}
