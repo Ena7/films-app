@@ -121,7 +121,7 @@ void Console::exportUI() {
 
 void Console::run() {
 	while (true) {
-		cout << "\n   == Films database ==\n\n  1. Add\n  2. Remove\n  3. Edit\n  4. Print\n  5. Find\n  6. Filter by title\n  7. Filter by year\n  8. Sort by title\n  9. Sort by actor\n 10. Sort by year and genre\n 11. Statistics\n 12. Undo\n\n   == Your cart ==\n > You cart has " << srvc.getCart().size() << " film(s)!\n\n 13. Clear cart\n 14. Add to cart\n 15. Add to cart a number of random flims\n 16. Export your cart to a file \n\n  0. Exit\n\n Input: ";
+		cout << "\n   == Films database ==\n\n  1. Add\n  2. Remove\n  3. Edit\n  4. Print\n  5. Find\n  6. Filter by title\n  7. Filter by year\n  8. Sort by title\n  9. Sort by actor\n 10. Sort by year and genre\n 11. Statistics\n 12. Undo\n\n   == Your cart ==\n > You cart has " << srvc.getCart().size() << " film(s)!\n\n 13. Clear cart\n 14. Add to cart\n 15. Add to cart a number of random flims\n 16. Export your cart to a file \n 17. Undo cart\n\n  0. Exit\n\n Input: ";
 		int cmd;
 		checkInt(cmd);
 		try {
@@ -190,9 +190,6 @@ void Console::run() {
 				statisticsUI();
 				break;
 			case 12:
-				if (srv.getAllSRV().size() == 0) {
-					throw RepoException("\nThere are no films in the database!");
-				}
 				srv.undo();
 				break;
 			case 13:
@@ -209,6 +206,9 @@ void Console::run() {
 					throw RepoException("\nThere are no films in the cart!");
 				}
 				exportUI();
+				break;
+			case 17:
+				srvc.undoCart();
 				break;
 			case 0:
 				return;

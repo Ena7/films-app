@@ -1,5 +1,6 @@
 #pragma once
 #include "repo.h"
+#include "repoc.h"
 
 class UndoAction {
 public:
@@ -37,5 +38,17 @@ public:
 	void doUndo() override {
 		repo.removeREPO(newtitle, newyear);
 		repo.addREPO(editedFilm);
+	}
+};
+
+class UndoClearCart : public UndoAction {
+	RepositoryCart& repoc;
+	vector<Film> deleted_cart;
+public:
+	UndoClearCart(RepositoryCart& repoc, vector<Film> deletedCart) : repoc{ repoc }, deleted_cart{ deletedCart } {}
+	void doUndo() override {
+		for (const auto& film : deleted_cart) {
+			repoc.addToCart(film.getTitle());
+		}
 	}
 };

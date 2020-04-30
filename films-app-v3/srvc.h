@@ -1,10 +1,12 @@
 #pragma once
 #include "repoc.h"
 #include <fstream>
+#include "undo.h"
 
 class ServiceCart {
 	RepositoryCart& repoc;
 	Repository& repo;
+	std::vector<std::unique_ptr<UndoAction>> undoActionsCart;
 
 public:
 	ServiceCart(RepositoryCart& repoc, Repository& repo) noexcept : repoc{ repoc }, repo{ repo } {}
@@ -28,4 +30,6 @@ public:
 	//scrie intr-un fisier dat toate filmele din cos
 	//exceptie daca: eroare la deschidere fisier
 	void exportSV(const string& filename);
+
+	void undoCart();
 };

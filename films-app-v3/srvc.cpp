@@ -7,6 +7,7 @@ const vector<Film>& ServiceCart::getCart() const noexcept {
 }
 
 void ServiceCart::clearCartSV() noexcept{
+	undoActionsCart.push_back(std::make_unique<UndoClearCart>(repoc, getCart()));
 	repoc.clearCart();
 }
 
@@ -43,4 +44,12 @@ void ServiceCart::exportSV(const string& filename) {
 		out << film.getTitle() << "," << film.getGenre() << "," << film.getYear() << "," << film.getActor() << std::endl;
 	}
 	out.close();
+}
+
+void ServiceCart::undoCart() {
+	if (undoActionsCart.empty()) {
+		throw RepoException("\nThere is nothing to undo!\n");
+	}
+	undoActionsCart.back()->doUndo();
+	undoActionsCart.pop_back();
 }
