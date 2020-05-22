@@ -67,6 +67,9 @@
     <ClCompile Include="gui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="guicart.cpp">
+      <Filter>Source Files\Cart</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="FilmAppGUI.h">
@@ -118,6 +121,9 @@
       <Filter>Header Files\Cart</Filter>
     </ClInclude>
     <ClInclude Include="repoc.h">
+      <Filter>Header Files\Cart</Filter>
+    </ClInclude>
+    <ClInclude Include="guicart.h">
       <Filter>Header Files\Cart</Filter>
     </ClInclude>
   </ItemGroup>

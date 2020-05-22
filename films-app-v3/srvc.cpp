@@ -1,6 +1,10 @@
 #include "srvc.h"
 #include <random>
 #include <algorithm>
+#include <chrono>
+
+#include <iostream>
+#include <iomanip>
 
 const vector<Film>& ServiceCart::getCart() const noexcept {
 	return repoc.getCart();
@@ -29,11 +33,20 @@ void ServiceCart::generate(const int& number) {
 	for (size_t pos = 0; pos < number; pos++) {
 		positions.push_back(pos);
 	}
-	auto seed = std::default_random_engine{};
-	std::shuffle(positions.begin(), positions.end(), seed);
+
+	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::shuffle(positions.begin(), positions.end(), std::default_random_engine((unsigned)seed));
+
+	for (auto const& i : positions) {
+		std::cout << i << " ";
+	}
 
 	for (size_t pos = 0; pos < number; pos++) {
 		repoc.add(repo.getAllREPO().at(positions.at(pos)));
+	}
+	std::cout << "\n";
+	for (const Film& film : getCart()) {
+		std::cout << std::left << " | " << std::setw(15) << film.getTitle() << " | " << std::setw(10) << film.getGenre() << " | " << std::setw(4) << film.getYear() << " | " << std::setw(13) << film.getActor() << "\n";
 	}
 }
 

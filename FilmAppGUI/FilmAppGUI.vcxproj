@@ -87,6 +87,7 @@
     <ClCompile Include="film.cpp" />
     <ClCompile Include="FilmAppGUI.cpp" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="guicart.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="repo.cpp" />
     <ClCompile Include="repoc.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="DTO.h" />
     <ClInclude Include="film.h" />
     <ClInclude Include="gui.h" />
+    <ClInclude Include="guicart.h" />
     <ClInclude Include="repo.h" />
     <ClInclude Include="repoc.h" />
     <ClInclude Include="srv.h" />

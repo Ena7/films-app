@@ -1,6 +1,7 @@
 #include "srvc.h"
 #include <random>
 #include <algorithm>
+#include <chrono>
 
 const vector<Film>& ServiceCart::getCart() const noexcept {
 	return repoc.getCart();
@@ -19,18 +20,16 @@ void ServiceCart::generate(const int& number) {
 	if (number <= 0) {
 		throw RepoException("\nThe number must not be zero or negative!\n");
 	}
-
 	if (number > repo.getAllREPO().size()) {
-		throw RepoException("\nThe number must not exceed the number of films!\n");
+		throw RepoException("\nThe number must not exceed the number of films!\nCurrent number of films is " + std::to_string(repo.getAllREPO().size()) + "\n");
 	}
-
 	repoc.clearCart();
 	vector<size_t> positions;
-	for (size_t pos = 0; pos < number; pos++) {
+	for (size_t pos = 0; pos < repo.getAllREPO().size(); pos++) {
 		positions.push_back(pos);
 	}
-	auto seed = std::default_random_engine{};
-	std::shuffle(positions.begin(), positions.end(), seed);
+	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::shuffle(positions.begin(), positions.end(), std::default_random_engine((unsigned)seed));
 
 	for (size_t pos = 0; pos < number; pos++) {
 		repoc.add(repo.getAllREPO().at(positions.at(pos)));

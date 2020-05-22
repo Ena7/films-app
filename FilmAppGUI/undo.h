@@ -47,6 +47,7 @@ class UndoClearCart : public UndoAction {
 public:
 	UndoClearCart(RepositoryCart& repoc, vector<Film> deletedCart) : repoc{ repoc }, deleted_cart{ deletedCart } {}
 	void doUndo() override {
+		repoc.clearCart();
 		for (const auto& film : deleted_cart) {
 			repoc.addToCart(film.getTitle());
 		}

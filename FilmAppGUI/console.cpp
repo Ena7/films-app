@@ -193,6 +193,9 @@ void Console::run() {
 				srv.undo();
 				break;
 			case 13:
+				if (srvc.getCart().size() == 0) {
+					throw RepoException("\nThere are no films in the cart!");
+				}
 				srvc.clearCartSV();
 				break;
 			case 14:

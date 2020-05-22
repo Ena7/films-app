@@ -63,9 +63,8 @@ int main(int argc, char* argv[]) {
 	Service srv{ repo, valid };
 	ServiceCart srvc{ repoc, repo };
 
-	GUI gui{ srv, srvc };
-	gui.show();
-
+	GUI* gui = new GUI{ srv, srvc };
+	gui->show();
 
 	return a.exec();
 }
