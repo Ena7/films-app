@@ -2,8 +2,9 @@
 #include "repoc.h"
 #include <fstream>
 #include "undo.h"
+#include "observer.h"
 
-class ServiceCart {
+class ServiceCart: public Observable {
 	RepositoryCart& repoc;
 	IRepo& repo;
 	std::vector<std::unique_ptr<UndoAction>> undoActionsCart;

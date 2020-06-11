@@ -41,6 +41,7 @@ void CartGUI::initGUI() {
 	mainL->addLayout(exportL);
 }
 
+
 void CartGUI::loadList(QListWidget* lst, vector<Film> films) {
 	lst->clear();
 	for (const auto& film : films) {
@@ -50,6 +51,7 @@ void CartGUI::loadList(QListWidget* lst, vector<Film> films) {
 }
 
 void CartGUI::connectSignals() {
+	srvc.addObserver(this);
 	QObject::connect(qlstcart, &QListWidget::itemSelectionChanged, [&]() {
 		if (qlstcart->selectedItems().isEmpty()) {
 			txtTitle->setText("");

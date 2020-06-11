@@ -95,12 +95,40 @@ void GUI::initGUI() {
 	ButtonLayout->addWidget(btnEdit);
 	Layout1->addLayout(ButtonLayout);
 
+	//btnGenre = new QPushButton{ "&Genre count" };
+	//Layout1->addWidget(btnGenre);
+
 	Button2Layout = new QHBoxLayout;
 	btnUndo = new QPushButton{ "&Undo" };
 	Button2Layout->addWidget(btnUndo);
-	btnOpenCart = new QPushButton{ "&OPEN CART" };
-	Button2Layout->addWidget(btnOpenCart);
 	Layout1->addLayout(Button2Layout);
+
+	fCartL = new QFormLayout;
+	opCart = new QLabel{ "Operatii cart" };
+	fCartL->addRow(opCart);
+	Layout1->addLayout(fCartL);
+
+	btnAddCart = new QPushButton{ "&Add to cart" };
+	btnClear = new QPushButton{ "&Clear cart" };
+	Layout1->addWidget(btnAddCart);
+	Layout1->addWidget(btnClear);
+
+	generateL = new QHBoxLayout;
+	generateF = new QFormLayout;
+	txtGenerate = new QLineEdit;
+	btnGenerate = new QPushButton{ "&Generate cart" };
+	generateL->addLayout(generateF);
+	generateF->addRow("Number:", txtGenerate);
+	generateL->addWidget(btnGenerate);
+	generateL->addLayout(generateF);
+	Layout1->addLayout(generateL);
+
+	btnsCartL = new QHBoxLayout;
+	btnCRUDCart = new QPushButton{ "&CRUD CART" };
+	btnsCartL->addWidget(btnCRUDCart);
+	btnROCart = new QPushButton{ "&ReadOnly CART" };
+	btnsCartL->addWidget(btnROCart);
+	Layout1->addLayout(btnsCartL);
 
 	MainLayout->addLayout(Layout1);
 
@@ -175,9 +203,22 @@ void GUI::connectSignals() {
 	QObject::connect(btnFilterbyYear, &QPushButton::clicked, [&]() { filterByYearGUI(); });
 	
 	QObject::connect(btnUndo, &QPushButton::clicked, [&]() { undoGUI(); });
-	QObject::connect(btnOpenCart, &QPushButton::clicked, [&]() { 
+	//QObject::connect(btnGenre, &QPushButton::clicked, [&]() { 
+		//auto GCountGUI = new GCountGUI{ srv };
+		//GCountGUI->show();r
+	//});
+
+	QObject::connect(btnAddCart, &QPushButton::clicked, [&]() { addCartGUI(); });
+	QObject::connect(btnClear, &QPushButton::clicked, [&]() { clearGUI(); });
+	QObject::connect(btnGenerate, &QPushButton::clicked, [&]() { generateGUI(); });
+
+	QObject::connect(btnCRUDCart, &QPushButton::clicked, [&]() { 
 		auto cartGUI = new CartGUI{ srvc };
 		cartGUI->show();
+	});
+	QObject::connect(btnROCart, &QPushButton::clicked, [&]() {
+		auto ROGUI = new ROCartGUI{ srvc };
+		ROGUI->show();
 	});
 }
 
@@ -344,6 +385,40 @@ void GUI::undoGUI() {
 		loadList(qlst, srv.getAllSRV());
 		loadList(qlst2, srv.getAllSRV());
 		add_buttons(srv.getAllSRV());
+	}
+	catch (RepoException& ex) {
+		QMessageBox::warning(this, "Exception!", QString::fromStdString(ex.getEx()));
+	}
+}
+
+void GUI::addCartGUI() {
+	try {
+		srvc.addToCartSV(txtTitle->text().toStdString());
+	}
+	catch (RepoException& ex) {
+		QMessageBox::warning(this, "Exception!", QString::fromStdString(ex.getEx()));
+	}
+}
+
+void GUI::clearGUI() {
+	try {
+		if (srvc.getCart().size() == 0) {
+			throw RepoException("There is nothing to clear!\n");
+		}
+		srvc.clearCartSV();
+		currentSelectedFilm->setText("Not selected");
+	}
+	catch (RepoException& ex) {
+		QMessageBox::warning(this, "Exception!", QString::fromStdString(ex.getEx()));
+	}
+}
+
+void GUI::generateGUI() {
+	try {
+		if (txtGenerate->text().toInt() == 0) {
+			throw RepoException("Invalid number!");
+		}
+		srvc.generate(txtGenerate->text().toInt());
 	}
 	catch (RepoException& ex) {
 		QMessageBox::warning(this, "Exception!", QString::fromStdString(ex.getEx()));

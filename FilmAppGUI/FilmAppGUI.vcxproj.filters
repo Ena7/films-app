@@ -126,6 +126,12 @@
     <ClInclude Include="guicart.h">
       <Filter>Header Files\Cart</Filter>
     </ClInclude>
+    <ClInclude Include="observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="roguicart.h">
+      <Filter>Header Files\Cart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="default_films.txt" />

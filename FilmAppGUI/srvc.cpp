@@ -10,10 +10,12 @@ const vector<Film>& ServiceCart::getCart() const noexcept {
 void ServiceCart::clearCartSV() noexcept{
 	undoActionsCart.push_back(std::make_unique<UndoClearCart>(repoc, getCart()));
 	repoc.clearCart();
+	notify();
 }
 
 void ServiceCart::addToCartSV(const string& title) {
 	repoc.addToCart(title);
+	notify();
 }
 
 void ServiceCart::generate(const int& number) {
@@ -34,6 +36,7 @@ void ServiceCart::generate(const int& number) {
 	for (size_t pos = 0; pos < number; pos++) {
 		repoc.add(repo.getAllREPO().at(positions.at(pos)));
 	}
+	notify();
 }
 
 void ServiceCart::exportSV(const string& filename) {
@@ -50,4 +53,5 @@ void ServiceCart::undoCart() {
 		throw RepoException("\nThere is nothing to undo!\n"); }
 	undoActionsCart.back()->doUndo();
 	undoActionsCart.pop_back();
+	notify();
 }

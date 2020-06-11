@@ -1,5 +1,6 @@
 #pragma once
 #include "srvc.h"
+#include "observer.h"
 #include <qwidget.h>
 #include <qlistwidget.h>
 #include <qboxlayout.h>
@@ -9,7 +10,7 @@
 #include <qlabel.h>
 #include <qmessagebox.h>
 
-class CartGUI : public QWidget {
+class CartGUI : public QWidget, public Observer {
 private:
 	ServiceCart& srvc;
 
@@ -44,6 +45,11 @@ public:
 		loadList(qlstcart, srvc.getCart());
 		connectSignals();
 	}
+
+	void update() override {
+		loadList(qlstcart, srvc.getCart());
+	}
+
 	void addCartGUI();
 	void clearGUI();
 	void generateGUI();

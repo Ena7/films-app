@@ -11,6 +11,7 @@
 #include "srv.h"
 #include "srvc.h"
 #include "guicart.h"
+#include "roguicart.h"
 #include <string>
 
 class GUI : public QWidget {
@@ -74,7 +75,21 @@ private:
 	QPushButton* btnFind;
 
 	QPushButton* btnUndo;
-	QPushButton* btnOpenCart;
+	QPushButton* btnGenre;
+
+	QFormLayout* fCartL;
+	QLabel* opCart;
+
+	QPushButton* btnAddCart;
+	QPushButton* btnClear;
+	QHBoxLayout* generateL;
+	QFormLayout* generateF;
+	QLineEdit* txtGenerate;
+	QPushButton* btnGenerate;
+
+	QHBoxLayout* btnsCartL;
+	QPushButton* btnCRUDCart;
+	QPushButton* btnROCart;
 
 	QVBoxLayout* btnsgenL;
 
@@ -101,6 +116,10 @@ public:
 	void sortByGUI(bool(*compare)(const Film&, const Film&));
 	void statsGUI();
 	void undoGUI();
+
+	void addCartGUI();
+	void clearGUI();
+	void generateGUI();
 };
 
 
